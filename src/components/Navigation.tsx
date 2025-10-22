@@ -405,7 +405,7 @@ export default function Navigation() {
                   </svg>
                 </button>
                 <div
-                  className="absolute left-0 mt-2 w-56 bg-gray-800/90 backdrop-blur-md rounded-xl shadow-2xl py-2 ring-1 ring-gray-700/50 transition-all duration-200 z-50 sm:left-0 lg:left-0 xl:left-0"
+                  className="absolute left-0 mt-2 w-56 bg-gray-800/90 backdrop-blur-md rounded-xl shadow-2xl py-2 ring-1 ring-gray-700/50 transition-all duration-200 z-50 sm:left-0 lg:left-0 xl:left-0 max-h-[60vh] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-gray-800"
                   data-dropdown-menu
                   style={{ display: "none" }}
                 >
@@ -508,7 +508,7 @@ export default function Navigation() {
                   </svg>
                 </button>
                 <div
-                  className="absolute left-0 mt-2 w-56 bg-gray-800/90 backdrop-blur-md rounded-xl shadow-2xl py-2 ring-1 ring-gray-700/50 transition-all duration-200 z-50 sm:left-0 lg:left-0 xl:left-0"
+                  className="absolute left-0 mt-2 w-56 bg-gray-800/90 backdrop-blur-md rounded-xl shadow-2xl py-2 ring-1 ring-gray-700/50 transition-all duration-200 z-50 sm:left-0 lg:left-0 xl:left-0 max-h-[60vh] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-gray-800"
                   data-dropdown-menu
                   style={{ display: "none" }}
                 >
@@ -638,7 +638,7 @@ export default function Navigation() {
               </button>
               <div
                 data-dropdown-menu
-                className="absolute right-0 mt-2 w-48 bg-gray-800/95 backdrop-blur-sm rounded-md shadow-lg border border-gray-700 z-50"
+                className="absolute right-0 mt-2 w-48 bg-gray-800/95 backdrop-blur-sm rounded-md shadow-lg border border-gray-700 z-50 max-h-[60vh] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-gray-800"
                 style={{ display: "none" }}
               >
                 <a
@@ -695,7 +695,7 @@ export default function Navigation() {
               </button>
               <div
                 data-dropdown-menu
-                className="absolute right-0 mt-2 w-48 bg-gray-800/95 backdrop-blur-sm rounded-md shadow-lg border border-gray-700 z-50"
+                className="absolute right-0 mt-2 w-48 bg-gray-800/95 backdrop-blur-sm rounded-md shadow-lg border border-gray-700 z-50 max-h-[60vh] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-gray-800"
                 style={{ display: "none" }}
               >
                 <a
@@ -787,7 +787,7 @@ export default function Navigation() {
         {/* Mobile menu */}
         {isMenuOpen && (
           <div className="lg:hidden">
-            <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-gray-800/95 backdrop-blur-md rounded-lg mx-2 mb-2">
+            <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-gray-800/95 backdrop-blur-md rounded-lg mx-2 mb-2 max-h-[80vh] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-gray-800">
               {/* Docs Link */}
               <Link
                 href="/docs"
