@@ -534,7 +534,12 @@ export default function Navigation() {
               </button>
               <div
                 data-dropdown-menu
-                className="absolute right-0 mt-2 w-48 bg-gray-800/95 backdrop-blur-sm rounded-md shadow-lg border border-gray-700"
+                className="absolute right-0 mt-2 w-48 bg-gray-800/95 backdrop-blur-sm rounded-md shadow-lg border border-gray-700 sm:right-0 lg:right-0 xl:right-0"
+                style={{ 
+                  right: '0',
+                  maxWidth: 'calc(100vw - 1rem)',
+                  left: 'auto'
+                }}
               >
                 <a
                   href="#"
@@ -589,7 +594,12 @@ export default function Navigation() {
               </button>
               <div
                 data-dropdown-menu
-                className="absolute right-0 mt-2 w-48 bg-gray-800/95 backdrop-blur-sm rounded-md shadow-lg border border-gray-700"
+                className="absolute right-0 mt-2 w-48 bg-gray-800/95 backdrop-blur-sm rounded-md shadow-lg border border-gray-700 sm:right-0 lg:right-0 xl:right-0"
+                style={{ 
+                  right: '0',
+                  maxWidth: 'calc(100vw - 1rem)',
+                  left: 'auto'
+                }}
               >
                 <a
                   href="https://github.com/kubestellar/kubestellar"
