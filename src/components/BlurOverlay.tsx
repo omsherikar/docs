@@ -26,7 +26,7 @@ export default function BlurOverlay({ isVisible, onClose }: BlurOverlayProps) {
       document.body.style.width = "unset";
       document.body.style.top = "unset";
       if (scrollY) {
-        window.scrollTo(0, parseInt(scrollY || '0') * -1);
+        window.scrollTo(0, parseInt(scrollY || "0") * -1);
       }
     }
 
@@ -40,14 +40,12 @@ export default function BlurOverlay({ isVisible, onClose }: BlurOverlayProps) {
 
   if (!isVisible) return null;
 
-  const isDark = resolvedTheme === 'dark';
+  const isDark = resolvedTheme === "dark";
 
   return (
     <div
       className={`fixed inset-0 z-40 backdrop-blur-sm transition-all duration-300 ${
-        isDark 
-          ? 'bg-black/30' 
-          : 'bg-black/20'
+        isDark ? "bg-black/30" : "bg-black/20"
       }`}
       onClick={onClose}
       onTouchEnd={onClose}
@@ -56,13 +54,13 @@ export default function BlurOverlay({ isVisible, onClose }: BlurOverlayProps) {
       tabIndex={-1}
       style={{
         // Mobile-specific optimizations
-        WebkitBackfaceVisibility: 'hidden',
-        WebkitTransform: 'translateZ(0)',
-        transform: 'translateZ(0)',
+        WebkitBackfaceVisibility: "hidden",
+        WebkitTransform: "translateZ(0)",
+        transform: "translateZ(0)",
         // Prevent touch scrolling on mobile
-        touchAction: 'none',
+        touchAction: "none",
         // Optimize for mobile performance
-        willChange: 'opacity, backdrop-filter'
+        willChange: "opacity, backdrop-filter",
       }}
     />
   );
