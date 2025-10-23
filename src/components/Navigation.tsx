@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { GridLines, StarField, LanguageSwitcher } from "./index";
 import { useTranslations } from "next-intl";
+import BlurOverlay from "./BlurOverlay";
 
 export default function Navigation() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -16,6 +17,7 @@ export default function Navigation() {
   });
 
   const t = useTranslations("navigation");
+  const [isAnyDropdownOpen, setIsAnyDropdownOpen] = useState(false);
   useEffect(() => {
     // Initialize dropdowns functionality
     const initDropdowns = () => {
@@ -28,7 +30,8 @@ export default function Navigation() {
         );
 
         if (menu) {
-          container.addEventListener("mouseenter", () => {
+          // Handle both mouse and touch events for better mobile support
+          const showDropdown = () => {
             if (timeoutRef.current) {
               clearTimeout(timeoutRef.current);
               timeoutRef.current = null;
@@ -47,28 +50,47 @@ export default function Navigation() {
             });
 
             menu.style.display = "block";
-          });
+            setIsAnyDropdownOpen(true);
+          };
 
-          container.addEventListener("mouseleave", () => {
+          const hideDropdown = () => {
             timeoutRef.current = setTimeout(() => {
               menu.style.display = "none";
+              setIsAnyDropdownOpen(false);
             }, 100);
-          });
+          };
 
+          // Mouse events for desktop
+          container.addEventListener("mouseenter", showDropdown);
+          container.addEventListener("mouseleave", hideDropdown);
           menu.addEventListener("mouseenter", () => {
             if (timeoutRef.current) {
               clearTimeout(timeoutRef.current);
               timeoutRef.current = null;
             }
           });
-
           menu.addEventListener("mouseleave", () => {
             menu.style.display = "none";
+            setIsAnyDropdownOpen(false);
+          });
+
+          // Touch events for mobile
+          container.addEventListener("touchstart", (e) => {
+            e.preventDefault();
+            showDropdown();
+          });
+
+          // Click outside to close (mobile-friendly)
+          document.addEventListener("click", (e) => {
+            if (!container.contains(e.target as Node) && !menu.contains(e.target as Node)) {
+              menu.style.display = "none";
+              setIsAnyDropdownOpen(false);
+            }
           });
         }
       });
 
-      // Close on Escape key
+      // Enhanced keyboard navigation
       document.addEventListener("keydown", e => {
         if (e.key === "Escape") {
           dropdownContainers.forEach(container => {
@@ -77,6 +99,30 @@ export default function Navigation() {
             ) as HTMLElement;
             if (menu) {
               menu.style.display = "none";
+            }
+          });
+          setIsAnyDropdownOpen(false);
+        }
+        
+        // Tab navigation support
+        if (e.key === "Tab") {
+          const activeElement = document.activeElement;
+          const dropdownButtons = document.querySelectorAll("[data-dropdown-button]");
+          
+          dropdownButtons.forEach((button, index) => {
+            if (activeElement === button) {
+              const container = button.closest("[data-dropdown]");
+              const menu = container?.querySelector("[data-dropdown-menu]") as HTMLElement;
+              if (menu) {
+                menu.style.display = "block";
+                setIsAnyDropdownOpen(true);
+                
+                // Focus first menu item
+                const firstMenuItem = menu.querySelector("a, button") as HTMLElement;
+                if (firstMenuItem) {
+                  setTimeout(() => firstMenuItem.focus(), 50);
+                }
+              }
             }
           });
         }
@@ -164,7 +210,22 @@ export default function Navigation() {
   }, []);
 
   return (
-    <nav className="fixed w-full z-50 bg-gradient-to-br from-green-900 via-purple-900 to-green-900/90 backdrop-blur-md border-b border-gray-700/50 transition-all duration-300">
+    <>
+      <BlurOverlay 
+        isVisible={isAnyDropdownOpen} 
+        onClose={() => {
+          setIsAnyDropdownOpen(false);
+          // Close all dropdowns
+          const dropdownContainers = document.querySelectorAll<HTMLElement>("[data-dropdown]");
+          dropdownContainers.forEach(container => {
+            const menu = container.querySelector("[data-dropdown-menu]") as HTMLElement;
+            if (menu) {
+              menu.style.display = "none";
+            }
+          });
+        }} 
+      />
+      <nav className="fixed w-full z-50 bg-gradient-to-br from-green-900 via-purple-900 to-green-900/90 backdrop-blur-md border-b border-gray-700/50 transition-all duration-300">
       {/* Dark base background */}
       <div className="absolute inset-0 bg-[#0a0a0a]/90 z-[-3]"></div>
 
@@ -707,5 +768,6 @@ export default function Navigation() {
         )}
       </div>
     </nav>
+    </>
   );
 }

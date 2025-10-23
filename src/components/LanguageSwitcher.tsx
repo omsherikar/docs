@@ -124,6 +124,7 @@ export default function LanguageSwitcher({
         {isOpen && (
           <div
             ref={dropdownRef}
+            data-language-dropdown
             className="absolute right-0 mt-2 w-48 bg-gray-800/95 backdrop-blur-sm rounded-lg shadow-xl border border-gray-700/50 py-2 z-50 animate-in fade-in-0 zoom-in-95 duration-200"
             role="listbox"
             aria-label="Select language"
