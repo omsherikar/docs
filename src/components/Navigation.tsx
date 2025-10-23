@@ -109,7 +109,7 @@ export default function Navigation() {
           const activeElement = document.activeElement;
           const dropdownButtons = document.querySelectorAll("[data-dropdown-button]");
           
-          dropdownButtons.forEach((button, index) => {
+          dropdownButtons.forEach((button) => {
             if (activeElement === button) {
               const container = button.closest("[data-dropdown]");
               const menu = container?.querySelector("[data-dropdown-menu]") as HTMLElement;

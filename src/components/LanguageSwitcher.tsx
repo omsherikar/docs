@@ -20,7 +20,6 @@ export default function LanguageSwitcher({
   const [isTransitioning, setIsTransitioning] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const locale = useLocale() as Locale;
   const pathname = usePathname();
@@ -43,9 +42,6 @@ export default function LanguageSwitcher({
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current);
-      }
     };
   }, []);
 
