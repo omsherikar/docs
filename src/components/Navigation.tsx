@@ -29,11 +29,7 @@ export default function Navigation() {
         ).some(m => m.style.display === "block");
       };
 
-      const hideAllMenus = () => {
-        document.querySelectorAll<HTMLElement>("[data-dropdown-menu]").forEach(m => {
-          m.style.display = "none";
-        });
-      };
+      // no-op helper was previously used; removed to avoid unused variable
 
       dropdownContainers.forEach(container => {
         const menu = container.querySelector<HTMLElement>(
