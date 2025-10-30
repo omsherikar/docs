@@ -8,6 +8,7 @@ import { useTranslations } from "next-intl";
 
 export default function Navigation() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isOverlayVisible, setIsOverlayVisible] = useState(false);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const [githubStats, setGithubStats] = useState({
     stars: "0",
@@ -21,6 +22,18 @@ export default function Navigation() {
     const initDropdowns = () => {
       const dropdownContainers =
         document.querySelectorAll<HTMLElement>("[data-dropdown]");
+
+      const anyMenuOpen = () => {
+        return Array.from(
+          document.querySelectorAll<HTMLElement>("[data-dropdown-menu]")
+        ).some(m => m.style.display === "block");
+      };
+
+      const hideAllMenus = () => {
+        document.querySelectorAll<HTMLElement>("[data-dropdown-menu]").forEach(m => {
+          m.style.display = "none";
+        });
+      };
 
       dropdownContainers.forEach(container => {
         const menu = container.querySelector<HTMLElement>(
@@ -47,11 +60,13 @@ export default function Navigation() {
             });
 
             menu.style.display = "block";
+            setIsOverlayVisible(true);
           });
 
           container.addEventListener("mouseleave", () => {
             timeoutRef.current = setTimeout(() => {
               menu.style.display = "none";
+              if (!anyMenuOpen()) setIsOverlayVisible(false);
             }, 100);
           });
 
@@ -64,6 +79,7 @@ export default function Navigation() {
 
           menu.addEventListener("mouseleave", () => {
             menu.style.display = "none";
+            if (!anyMenuOpen()) setIsOverlayVisible(false);
           });
         }
       });
@@ -79,6 +95,7 @@ export default function Navigation() {
               menu.style.display = "none";
             }
           });
+          setIsOverlayVisible(false);
         }
       });
     };
@@ -164,7 +181,19 @@ export default function Navigation() {
   }, []);
 
   return (
-    <nav className="fixed w-full z-50 bg-gradient-to-br from-green-900 via-purple-900 to-green-900/90 backdrop-blur-md border-b border-gray-700/50 transition-all duration-300">
+    <>
+      {isOverlayVisible && (
+        <div
+          className="fixed inset-0 bg-black/40 backdrop-blur-sm z-40"
+          onClick={() => {
+            document
+              .querySelectorAll<HTMLElement>("[data-dropdown-menu]")
+              .forEach(m => (m.style.display = "none"));
+            setIsOverlayVisible(false);
+          }}
+        />
+      )}
+      <nav className="fixed w-full z-50 bg-gradient-to-br from-green-900 via-purple-900 to-green-900/90 backdrop-blur-md border-b border-gray-700/50 transition-all duration-300">
       {/* Dark base background */}
       <div className="absolute inset-0 bg-[#0a0a0a]/90 z-[-3]"></div>
 
@@ -193,7 +222,6 @@ export default function Navigation() {
               />
             </div>
           </Link>
-
           {/* Center: Nav Links */}
           <div className="hidden md:flex flex-1 justify-center">
             <div className="flex items-center space-x-8">
@@ -558,7 +586,19 @@ export default function Navigation() {
             </div>
 
             {/* Language Switcher */}
-            <LanguageSwitcher className="relative group" />
+            <LanguageSwitcher
+              className="relative group"
+              onOpenChange={open => {
+                if (open) {
+                  setIsOverlayVisible(true);
+                } else {
+                  const anyOpen = Array.from(
+                    document.querySelectorAll<HTMLElement>("[data-dropdown-menu]")
+                  ).some(m => m.style.display === "block");
+                  setIsOverlayVisible(anyOpen);
+                }
+              }}
+            />
 
             {/* GitHub Dropdown */}
             <div className="relative group" data-dropdown>
@@ -707,5 +747,6 @@ export default function Navigation() {
         )}
       </div>
     </nav>
+    </>
   );
 }

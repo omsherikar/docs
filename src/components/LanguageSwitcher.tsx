@@ -9,12 +9,14 @@ interface LanguageSwitcherProps {
   className?: string;
   showLabel?: boolean;
   variant?: "dropdown" | "minimal";
+  onOpenChange?: (open: boolean) => void;
 }
 
 export default function LanguageSwitcher({
   className = "",
   showLabel = true,
   variant = "dropdown",
+  onOpenChange,
 }: LanguageSwitcherProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [isTransitioning, setIsTransitioning] = useState(false);
@@ -66,6 +68,11 @@ export default function LanguageSwitcher({
       document.removeEventListener("keydown", handleEscape);
     };
   }, [isOpen]);
+
+  // Notify parent about open state changes (for global backdrop control)
+  useEffect(() => {
+    if (onOpenChange) onOpenChange(isOpen);
+  }, [isOpen, onOpenChange]);
 
   const handleLanguageChange = async (newLocale: Locale) => {
     if (newLocale === locale) {

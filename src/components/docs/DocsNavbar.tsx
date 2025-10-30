@@ -190,6 +190,15 @@ export default function DocsNavbar() {
 
   return (
     <div className="nextra-nav-container sticky top-0 z-20 w-full bg-transparent">
+      {(openDropdown !== null || isMenuOpen) && !isSearchOpen && (
+        <div
+          className="fixed inset-0 bg-black/40 backdrop-blur-sm z-10"
+          onClick={() => {
+            setOpenDropdown(null);
+            setIsMenuOpen(false);
+          }}
+        />
+      )}
       <div className={`nextra-nav-container-blur pointer-events-none absolute z-[-1] h-full w-full shadow-sm border-b ${
         isDark 
           ? 'bg-[#111] border-neutral-800' 
