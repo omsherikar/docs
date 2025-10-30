@@ -29,8 +29,6 @@ export default function Navigation() {
         ).some(m => m.style.display === "block");
       };
 
-      // no-op helper was previously used; removed to avoid unused variable
-
       dropdownContainers.forEach(container => {
         const menu = container.querySelector<HTMLElement>(
           "[data-dropdown-menu]"
